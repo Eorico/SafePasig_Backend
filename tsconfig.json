@@ -23,5 +23,4 @@
     "moduleDetection": "force",
     "skipLibCheck": true
   },
-  "include": ["server/**/*.ts", "server.ts"]
 }
