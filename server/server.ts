@@ -18,7 +18,7 @@ app.use("/reports", router);
 
 // MongoDB connection
 const MONGO_URI =
-  "mongodb+srv://eoricogonzales_db_user:pOziz25jmXeUXup9@safepasigcluster.nlwimol.mongodb.net/safepasig?retryWrites=true&w=majority";
+  "mongodb+srv://eoricogonzales_db_user:pOziz25jmXeUXup9@safepasigcluster.nlwimol.mongodb.net/?appName=SafePasigCluster";
 
 mongoose
   .connect(MONGO_URI) // no need for options in Mongoose 6+
