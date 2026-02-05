@@ -1,8 +1,5 @@
 {
   "compilerOptions": {
-    // File Layout
-    "rootDir": "./server",
-    "outDir": "./dist",
 
     // Module system
     "module": "nodenext",
