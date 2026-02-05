@@ -2,11 +2,11 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "server/server.js",
   "type": "module",
   "scripts": {
     "build": "tsc",
-    "start": "node server.js"
+    "start": "node dist/server.js"
   },
   "dependencies": {
     "cors": "^2.8.6",

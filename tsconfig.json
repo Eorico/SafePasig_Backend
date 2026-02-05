@@ -1,5 +1,8 @@
 {
   "compilerOptions": {
+    // File Layout
+    "rootDir": "./server",
+    "outDir": "./dist",
 
     // Module system
     "module": "nodenext",
@@ -23,4 +26,5 @@
     "moduleDetection": "force",
     "skipLibCheck": true
   },
+  "include": ["server/**/*.ts", "server.ts"]
 }
