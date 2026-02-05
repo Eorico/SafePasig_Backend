@@ -1,19 +1,19 @@
-import express from 'express';
-import mongoose from 'mongoose';
-
-const router = require('../routes/reports');
-
-const cors = require('cors');
+import express from "express";
+import mongoose from "mongoose";
+import cors from "cors"; 
+import router from "./routes/reports.js";  
 
 const app = express();
+
 app.use(cors());
 app.use(express.json());
 app.use("/reports", router);
 
 mongoose.connect(
     "mongodb+srv://eoricogonzales_db_user:pOziz25jmXeUXup9@safepasigcluster.nlwimol.mongodb.net/?appName=SafePasigCluster"
-)
+);
 
-app.listen(3000, () => {
-    console.log("Server running on http://localhost:3000");
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
 });

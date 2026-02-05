@@ -1,6 +1,7 @@
 import express from 'express';
-const multer = require('multer');
-const Report = require('../models/Report');
+import multer from 'multer';
+
+import Report from '../models/Report.js';
 
 const router = express.Router();
 const upload = multer({ dest: "uploads/" });
