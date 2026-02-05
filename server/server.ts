@@ -1,6 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import router from '../routes/reports.js';
+
+const router = require('../routes/reports');
 
 const cors = require('cors');
 
