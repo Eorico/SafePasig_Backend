@@ -2,7 +2,8 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
-import router from "./routes/reports.js";
+import reportRouter from "./routes/reports.js";
+import sosRouter from "./routes/sos.js";
 
 dotenv.config();
 const app = express();
@@ -15,7 +16,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/uploads", express.static("uploads"));
 
 // Routes
-app.use("/reports", router);
+app.use("/reports", reportRouter);
+app.use("/SOS", sosRouter);
 
 // ------------------
 // MongoDB Connection
