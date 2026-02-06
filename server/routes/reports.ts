@@ -58,4 +58,29 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.delete("/:id", async (req, res) => {
+  try {
+    const {id} = req.params;
+
+    const report = await Report.findByIdAndDelete(id);
+
+    if (!report) {
+      return res.status(404).json({ success: false, message: "Report not found." });
+    }
+
+    if (report.mediaUrl) {
+      const filepath = path.join(process.cwd(), report.mediaUrl);
+      if (fs.existsSync(filepath)) {
+        fs.unlinkSync(filepath)
+      }
+    }
+
+    res.json({ success: true, message: "Report deleted successfully." });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: "Server error" })
+  }
+})
+
 export default router;
