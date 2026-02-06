@@ -17,14 +17,25 @@ app.use("/uploads", express.static("uploads"));
 // Routes
 app.use("/reports", router);
 
-// Connect to MongoDB
-mongoose.connect(String(process.env.MONGO_URI))
+// ------------------
+// MongoDB Connection
+// ------------------
+const mongoURI = process.env.MONGO_URI;
 
-.then(() => console.log("MongoDB connected successfully!"))
-.catch(err => console.error("MongoDB connection error:", err));
+if (!mongoURI) {
+  console.error("Error: MONGO_URI is not defined!");
+  process.exit(1); // stop the server if URI is missing
+}
 
-// Start server
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+mongoose.connect(mongoURI)
+  .then(() => {
+    console.log("MongoDB connected successfully!");
+
+    const PORT = process.env.PORT || 3000;
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
+  })
+  .catch(err => {
+    console.error("MongoDB connection error:", err);
+  });
