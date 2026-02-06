@@ -32,4 +32,15 @@ sosRouter.post("/", async (req, res) => {
   }
 });
 
+sosRouter.get("/", async (req, res) => {
+  try {
+    const sosList = await SOS.find({ active: true }).sort({ createdAt: -1 });
+    res.json(sosList);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Failed to fetch SOS' });
+  }
+});
+
+
 export default sosRouter;

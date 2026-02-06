@@ -1,14 +1,15 @@
-// utils/push.js
-export async function sendPushNotification(token: any, message: any) {
-  await fetch("https://exp.host/--/api/v2/push/send", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
+import fetch from 'node-fetch';
+
+export const sendPushNotification = async (expoPushToken: any, message: any) => {
+  await fetch('https://exp.host/--/api/v2/push/send', {
+    method: 'POST',
+    headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      to: token,
-      sound: "default",
-      ...message
-    })
+      to: expoPushToken,
+      sound: 'default',
+      title: message.title,
+      body: message.body,
+      data: message.data || {},
+    }),
   });
-}
+};
