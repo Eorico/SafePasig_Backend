@@ -1,7 +1,7 @@
 import express from 'express';
 import SOS from '../models/SOS.js';
 import User from '../models/User.js';
-import { sendPushNotification } from '../utils/push.js';
+import { sendPushNotification } from '../uti/push.js';
 
 const sosRouter = express.Router();
 
