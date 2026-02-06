@@ -1,29 +1,27 @@
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
-import router from "./routes/reports.js"; // your reports routes
+import dotenv from "dotenv";
+import router from "./routes/reports.js";
 
+dotenv.config();
 const app = express();
 
-// Middleware
 app.use(cors());
-app.use(express.json()); // parse JSON
-app.use(express.urlencoded({ extended: true })); // parse form-data
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// Serve uploads folder
+// Serve uploaded files
 app.use("/uploads", express.static("uploads"));
 
 // Routes
 app.use("/reports", router);
 
-// MongoDB connection
-const MONGO_URI =
-  "mongodb+srv://eoricogonzales_db_user:pOziz25jmXeUXup9@safepasigcluster.nlwimol.mongodb.net/?appName=SafePasigCluster";
+// Connect to MongoDB
+mongoose.connect(String(process.env.MONGO_URI))
 
-mongoose
-  .connect(MONGO_URI) // no need for options in Mongoose 6+
-  .then(() => console.log("MongoDB connected successfully!"))
-  .catch((err) => console.error("MongoDB connection error:", err));
+.then(() => console.log("MongoDB connected successfully!"))
+.catch(err => console.error("MongoDB connection error:", err));
 
 // Start server
 const PORT = process.env.PORT || 3000;
