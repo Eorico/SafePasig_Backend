@@ -50,7 +50,9 @@ router.post("/", upload.single("media"), async (req, res) => {
 // GET: Fetch all reports
 router.get("/", async (req, res) => {
   try {
-    const reports = await Report.find().sort({ createdAt: -1 });
+    const reports = await Report.find()
+    .sort({ createdAt: -1 })
+    .limit(50);
     res.json(reports);
   } catch (err) {
     console.error(err);
