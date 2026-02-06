@@ -17,8 +17,7 @@
     "express": "^5.2.1",
     "mongoose": "^9.1.6",
     "multer": "^2.0.2",
-    "node-fetch": "^3.3.2",
-    "ws": "^8.19.0"
+    "node-fetch": "^3.3.2"
   },
   "devDependencies": {
     "@types/ws": "^8.18.1",
