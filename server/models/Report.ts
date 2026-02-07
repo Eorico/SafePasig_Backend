@@ -7,9 +7,11 @@ const ReportSchema = new mongoose.Schema({
   street: { type: String },
   latitude: { type: Number, required: true },
   longitude: { type: Number, required: true },
-  mediaUrl: { type: String },
+  mediaUrl: { type: String, default: null  },
   status: { type: String, default: "Pending" },    
   createdAt: { type: Date, default: Date.now }
 });
+
+ReportSchema.index({ latitude: 1, longitude: 1 });
 
 export default mongoose.model("Report", ReportSchema);
