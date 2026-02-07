@@ -4,7 +4,7 @@ import fs from "fs";
 import path from "path";
 import Report from "../models/Report.js";
 
-const router = express.Router();
+const reportRouter = express.Router();
 
 // automatic deletion of old reports with media
 const VIDEO_EXPIRATION = 5 * 60 * 1000;
@@ -65,7 +65,7 @@ const upload = multer({
 });
 
 // POST: Create a report
-router.post("/", upload.single("media"), async (req, res) => {
+reportRouter.post("/", upload.single("media"), async (req, res) => {
   try {
     const { type, description, barangay, street, latitude, longitude } = req.body;
 
@@ -98,7 +98,7 @@ router.post("/", upload.single("media"), async (req, res) => {
 });
 
 // GET: Fetch all reports
-router.get("/", async (req, res) => {
+reportRouter.get("/", async (req, res) => {
   try {
     const reports = await Report.find()
     .sort({ createdAt: -1 })
@@ -110,7 +110,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.delete("/:id", async (req, res) => {
+reportRouter.delete("/:id", async (req, res) => {
   try {
     const {id} = req.params;
 
@@ -135,4 +135,4 @@ router.delete("/:id", async (req, res) => {
   }
 })
 
-export default router;
+export default reportRouter;
