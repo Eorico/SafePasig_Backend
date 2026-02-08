@@ -7,8 +7,6 @@ import bcrypt from 'bcrypt';
 import { adminAuth } from '../middleware/adminAuth.js';
 import { permit } from '../middleware/adminRBAC.js';
 import Report from '../models/Report.js';
-import dotenv from 'dotenv';
-dotenv.config();
 
 const adminRouter = express.Router();
 
@@ -26,7 +24,7 @@ adminRouter.post('/admin-login', async (req, res) => {
 
     const token = jwt.sign(
         { id: admin._id, email: admin.email, role: admin.role }, 
-        process.env.JSWT_SECRET as string, 
+        process.env.JWT_SECRET as string, 
         { expiresIn: '8h' }
     );
     res.json({ success: true, token });

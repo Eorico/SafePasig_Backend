@@ -1,7 +1,5 @@
 import jwt from 'jsonwebtoken';
 import type { Request, Response, NextFunction } from 'express';
-import dotenv from 'dotenv';
-dotenv.config();
 
 export interface AuthRequest extends Request {
     admin?: any;
