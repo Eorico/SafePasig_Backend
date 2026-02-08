@@ -15,7 +15,7 @@ const AdminSchema: Schema<IAdmin> = new Schema({
     password: { type: String, required: true },
     role: { type: String, default: "admin" },
     resetToken: { type: String },
-    resetTokenExpiry: { type: String },
+    resetTokenExpiry: { type: Date },
 }, { timestamps: true });
 
 // convert password sa hash
@@ -30,4 +30,4 @@ AdminSchema.methods.comparePassword = async function(password: string) {
     return bcrypt.compare(password, this.password);
 };
 
-export default mongoose.model("Admin", AdminSchema);
+export default mongoose.model("Admin", AdminSchema, "admins");
