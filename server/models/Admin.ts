@@ -20,7 +20,7 @@ const AdminSchema: Schema<IAdmin> = new Schema({
 
 // convert password sa hash
 AdminSchema.pre<IAdmin>("save", async function(next: any) {
-    if (!this.isModified('password')) return next();
+    if (!this.isModified('password')) return;
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
     next();
