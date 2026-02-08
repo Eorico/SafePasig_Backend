@@ -5,7 +5,6 @@ import dotenv from "dotenv";
 import reportRouter from "./routes/reports.js";
 import sosRouter from "./routes/sos.js";
 import adminRouter from "./routes/admin.js";
-import { createDefaultAdmins } from "./admin/adminAccount.js";
 
 dotenv.config();
 const app = express();
@@ -37,18 +36,14 @@ if (!mongoURI) {
 }
 
 mongoose.connect(mongoURI)
-  .then(async () => {
+  .then(() => {
     console.log("MongoDB connected successfully!");
 
-    // ----- Create default admin accounts -----
-
-    await createDefaultAdmins();
-
-    // ----- Start server -----
     const PORT = process.env.PORT || 3000;
     app.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
     });
+
     
   })
   .catch(err => {
