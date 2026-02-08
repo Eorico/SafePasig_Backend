@@ -7,6 +7,8 @@ import bcrypt from 'bcrypt';
 import { adminAuth } from '../middleware/adminAuth.js';
 import { permit } from '../middleware/adminRBAC.js';
 import Report from '../models/Report.js';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const adminRouter = express.Router();
 
@@ -110,7 +112,7 @@ adminRouter.get("/reports/data-chart", adminAuth, async (req, res) => {
         if (r.status==="True") dataCharts.yearly.trueReports[month]++;
         if (r.status==="Fake") dataCharts.yearly.trueReports[month]++;
 
-        res.json(dataCharts);
+        res.json(dataCharts)
 
     })
 });
