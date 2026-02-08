@@ -5,52 +5,37 @@ import dotenv from "dotenv";
 import reportRouter from "./routes/reports.js";
 import sosRouter from "./routes/sos.js";
 import adminRouter from "./routes/admin.js";
-import { createDefaultAdmins } from "./admin/adminAccount.js";
-
 dotenv.config();
 const app = express();
-
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
 // Serve uploaded files
 app.use("/uploads", express.static("uploads", {
-  setHeaders: (res) => {
-    res.set("X-Content-Type-Options", "nosniff");
-  }
+    setHeaders: (res) => {
+        res.set("X-Content-Type-Options", "nosniff");
+    }
 }));
-
 // Routes
 app.use("/reports", reportRouter);
 app.use("/sos", sosRouter);
-app.use("/admin", adminRouter)
-
+app.use("/admin", adminRouter);
 // ------------------
 // MongoDB Connection
 // ------------------
 const mongoURI = process.env.MONGO_URI;
-
 if (!mongoURI) {
-  console.error("Error: MONGO_URI is not defined!");
-  process.exit(1); // stop the server if URI is missing
+    console.error("Error: MONGO_URI is not defined!");
+    process.exit(1); // stop the server if URI is missing
 }
-
 mongoose.connect(mongoURI)
-  .then(async () => {
+    .then(() => {
     console.log("MongoDB connected successfully!");
-
-    // ----- Create default admin accounts -----
-
-    await createDefaultAdmins();
-
-    // ----- Start server -----
     const PORT = process.env.PORT || 3000;
     app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
+        console.log(`Server running on port ${PORT}`);
     });
-    
-  })
-  .catch(err => {
+})
+    .catch(err => {
     console.error("MongoDB connection error:", err);
-  });
+});

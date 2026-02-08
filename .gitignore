@@ -1,4 +1,3 @@
 server/.env
 node_modules
 userandpass/userandpass.txt
-userandpass/hashgenerator.py
