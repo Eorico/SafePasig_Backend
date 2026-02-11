@@ -135,4 +135,25 @@ reportRouter.delete("/:id", async (req, res) => {
   }
 })
 
+// In your admin route file
+reportRouter.get("/stream", (req, res) => {
+  res.setHeader("Content-Type", "text/event-stream");
+  res.setHeader("Cache-Control", "no-cache");
+  res.setHeader("Connection", "keep-alive");
+
+  const sendUpdate = async () => {
+    const reports = await Report.find().sort({ createdAt: -1 }).limit(50);
+    res.write(`data: ${JSON.stringify(reports)}\n\n`);
+  };
+
+  // Send initial data
+  sendUpdate();
+
+  // Poll DB every 5s (or use a real event listener)
+  const interval = setInterval(sendUpdate, 5000);
+
+  req.on("close", () => clearInterval(interval));
+});
+
+
 export default reportRouter;
