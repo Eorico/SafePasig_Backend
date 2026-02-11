@@ -7,7 +7,7 @@ import Report from "../models/Report.js";
 const reportRouter = express.Router();
 
 // automatic deletion of old reports with media
-const VIDEO_EXPIRATION = 30 * 60 * 1000;
+const VIDEO_EXPIRATION = 24 * 60 * 60 * 1000;
 
 setInterval(async () => {
   try {
