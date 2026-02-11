@@ -102,13 +102,13 @@ adminRouter.get("/reports/data-chart", adminAuth, async (req, res) => {
         const week = Math.floor(date.getDate()/7);
         if (week < 4) {
             if (r.status==="True") dataCharts.monthly.trueReports[week]++;
-            if (r.status==="Fake") dataCharts.monthly.trueReports[week]++;
+            if (r.status==="False") dataCharts.monthly.trueReports[week]++;
         }
 
         // kada Taon
         const month = date.getMonth();
         if (r.status==="True") dataCharts.yearly.trueReports[month]++;
-        if (r.status==="Fake") dataCharts.yearly.trueReports[month]++;
+        if (r.status==="False") dataCharts.yearly.trueReports[month]++;
 
         res.json(dataCharts)
 
