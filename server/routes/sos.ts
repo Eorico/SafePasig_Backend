@@ -5,7 +5,7 @@ const sosRouter = express.Router();
 
 sosRouter.post('/', async (req, res) => {
     try {
-        const { latitude, longitude, isPWD } = req.body;
+        const { latitude, longitude } = req.body;
 
         if (!latitude || !longitude) {
             return res.status(400).json({ success: false, message: "Missing coordinates" });
@@ -16,8 +16,7 @@ sosRouter.post('/', async (req, res) => {
             description: 'Emergency SOS Triggered',
             barangay: "Unkown",
             latitude: parseFloat(latitude),
-            longitude: parseFloat(longitude),
-            isPWD: isPWD === 'true' || isPWD === true, 
+            longitude: parseFloat(longitude)
         });
 
         const io = req.app.get("io");
@@ -26,7 +25,6 @@ sosRouter.post('/', async (req, res) => {
             latitude: sosReport.latitude,
             longitude: sosReport.longitude,
             id: sosReport._id,
-            isPWD: sosReport.isPWD,
         });
 
         res.json({ success: true, message: "SOS sent", sosReport });

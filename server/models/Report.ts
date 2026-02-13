@@ -8,8 +8,7 @@ const ReportSchema = new mongoose.Schema({
   latitude: { type: Number, required: true },
   longitude: { type: Number, required: true },
   mediaUrl: { type: String, default: null  },
-  status: { type: String, enum: ['Pending', 'True', 'False'],default: "Pending" }, 
-  isPWD: { type: Boolean, default: false },   
+  status: { type: String, enum: ['Pending', 'True', 'False'],default: "Pending" },    
   createdAt: { type: Date, default: Date.now }
 });
 
