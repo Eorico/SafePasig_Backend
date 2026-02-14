@@ -89,7 +89,7 @@ reportRouter.post("/", upload.single("media"), async (req, res) => {
       latitude: parseFloat(latitude),
       longitude: parseFloat(longitude),
       mediaUrl: mediaPath,
-      isPWD: isPWD || false,
+      isPWD: isPWD === 'true',
     });
 
     res.json({ success: true, report });
@@ -155,24 +155,6 @@ reportRouter.get("/stream", (req, res) => {
   const interval = setInterval(sendUpdate, 5000);
 
   req.on("close", () => clearInterval(interval));
-});
-
-// PUT: Toggle PWD for all reports and SOS
-reportRouter.put("/pwd/:deviceId", async (req, res) => {
-  try {
-    const { deviceId } = req.params;
-    const { isPWD } = req.body;
-
-    const user = await Report.findOneAndUpdate(
-      { deviceId },
-      { isPWD },
-      { new: true, upsert: true }
-    );
-
-    res.json({ success: true, user });
-  } catch (err) {
-    res.status(500).json({ success: false });
-  }
 });
 
 export default reportRouter;
