@@ -3,7 +3,6 @@ import multer from "multer";
 import fs from "fs";
 import path from "path";
 import Report from "../models/Report.js";
-import fetch from 'node-fetch';
 
 const reportRouter = express.Router();
 
@@ -65,38 +64,6 @@ const upload = multer({
 
 });
 
-let expoPushTokens: string[] = []; // store registered tokens (you can also store in DB)
-
-// Endpoint to register Expo push token from mobile
-reportRouter.post("/register-token", async (req, res) => {
-  const { token } = req.body;
-  if (token && !expoPushTokens.includes(token)) {
-    expoPushTokens.push(token);
-  }
-  res.json({ success: true });
-});
-
-// Function to send notifications
-const sendPushNotification = async (title: string, body: string) => {
-  const messages = expoPushTokens.map(token => ({
-    to: token,
-    sound: 'default',
-    title,
-    body,
-    data: { extra: 'report' },
-  }));
-
-  const promises = messages.map(msg =>
-    fetch("https://exp.host/--/api/v2/push/send", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(msg),
-    })
-  );
-
-  await Promise.all(promises);
-};
-
 // POST: Create a report
 reportRouter.post("/", upload.single("media"), async (req, res) => {
   try {
@@ -124,11 +91,6 @@ reportRouter.post("/", upload.single("media"), async (req, res) => {
       mediaUrl: mediaPath,
       isPWD: isPWD === 'true',
     });
-
-    await sendPushNotification(
-      `New Disaster Report: ${report.type}`,
-      `${report.description} (${report.barangay})`
-    );
 
     res.json({ success: true, report });
   } catch (err) {
