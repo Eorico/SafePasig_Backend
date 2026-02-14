@@ -138,6 +138,9 @@ adminRouter.delete("/reports/:id", adminAuth, permit("superadmin"),
         const report = await Report.findByIdAndDelete(id);
         if (!report) return res.status(404).json({ success: false, message: "Report not found" });
 
+        const io = req.app.get('io');
+        io.emit('report-deleted' , { id });
+
         res.json({ success: true, message: "Report deleted successfully" });
     }
 );
