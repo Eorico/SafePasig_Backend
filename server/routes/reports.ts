@@ -158,20 +158,21 @@ reportRouter.get("/stream", (req, res) => {
 });
 
 // PUT: Toggle PWD for all reports and SOS
-reportRouter.put("/pwd", async (req, res) => {
+reportRouter.put("/pwd/:deviceId", async (req, res) => {
   try {
+    const { deviceId } = req.params;
     const { isPWD } = req.body;
 
-    const updated = await Report.findByIdAndUpdate(
+    const user = await Report.findOneAndUpdate(
+      { deviceId },
       { isPWD },
-      { new: true }
+      { new: true, upsert: true }
     );
 
-    res.json({ success: true, report: updated });
+    res.json({ success: true, user });
   } catch (err) {
     res.status(500).json({ success: false });
   }
 });
-
 
 export default reportRouter;
