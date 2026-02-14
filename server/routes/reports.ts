@@ -156,5 +156,20 @@ reportRouter.get("/stream", (req, res) => {
   req.on("close", () => clearInterval(interval));
 });
 
+// PUT: Toggle PWD for a report (public)
+reportRouter.put("/:id/pwd", async (req, res) => {
+    const { id } = req.params;
+    const { isPWD } = req.body; // boolean
+
+    const report = await Report.findById(id);
+    if (!report) return res.status(404).json({ success: false, message: "Report not found" });
+
+    report.isPWD = isPWD;
+    await report.save();
+
+    res.json({ success: true, report });
+});
+
+
 
 export default reportRouter;
