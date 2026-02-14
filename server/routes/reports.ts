@@ -89,7 +89,7 @@ reportRouter.post("/", upload.single("media"), async (req, res) => {
       latitude: parseFloat(latitude),
       longitude: parseFloat(longitude),
       mediaUrl: mediaPath,
-      isPWD: isPWD === 'true',
+      isPWD: isPWD || false,
     });
 
     res.json({ success: true, report });
@@ -158,21 +158,18 @@ reportRouter.get("/stream", (req, res) => {
 });
 
 // PUT: Toggle PWD for all reports and SOS
-reportRouter.put("/pwd/all", async (req, res) => {
+reportRouter.put("/pwd", async (req, res) => {
   try {
-    const { isPWD } = req.body; // true or false
+    const { isPWD } = req.body;
 
-    // Update all reports (normal + SOS)
-    const result = await Report.updateMany({}, { isPWD });
+    const updated = await Report.findByIdAndUpdate(
+      { isPWD },
+      { new: true }
+    );
 
-    res.json({
-      success: true,
-      modifiedCount: result.modifiedCount,
-      message: `PWD set to ${isPWD} for all reports and SOS entries`
-    });
+    res.json({ success: true, report: updated });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ success: false, message: "Server error" });
+    res.status(500).json({ success: false });
   }
 });
 
