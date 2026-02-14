@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
 const ReportSchema = new mongoose.Schema({
+  deviceId: { type: String, require: true },
   type: { type: String, required: true },          
   description: { type: String },
   barangay: { type: String, required: true },  

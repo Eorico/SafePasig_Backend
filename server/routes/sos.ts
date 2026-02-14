@@ -5,13 +5,14 @@ const sosRouter = express.Router();
 
 sosRouter.post('/', async (req, res) => {
     try {
-        const { latitude, longitude } = req.body;
+        const {  deviceId, latitude, longitude } = req.body;
 
-        if (!latitude || !longitude) {
-            return res.status(400).json({ success: false, message: "Missing coordinates" });
+        if ( !deviceId || !latitude || !longitude) {
+            return res.status(400).json({ success: false, message: "Missing coordinates and Device Id" });
         }
 
         const sosReport = await Report.create({
+            deviceId,
             type: 'SOS',
             description: 'Emergency SOS Triggered',
             barangay: "Unkown",
@@ -22,6 +23,7 @@ sosRouter.post('/', async (req, res) => {
         const io = req.app.get("io");
         io.emit("sos", {
             message: "SOS triggered!",
+            deviceId: sosReport.deviceId,
             latitude: sosReport.latitude,
             longitude: sosReport.longitude,
             id: sosReport._id,

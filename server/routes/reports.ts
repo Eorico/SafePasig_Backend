@@ -67,9 +67,9 @@ const upload = multer({
 // POST: Create a report
 reportRouter.post("/", upload.single("media"), async (req, res) => {
   try {
-    const { type, description, barangay, street, latitude, longitude } = req.body;
+    const { deviceId, type, description, barangay, street, latitude, longitude } = req.body;
 
-    if (!type || !barangay || !latitude || !longitude) {
+    if ( !deviceId || !type || !barangay || !latitude || !longitude) {
       return res.status(400).json({ success: false, message: "Missing required fields" });
     }
 
@@ -81,6 +81,7 @@ reportRouter.post("/", upload.single("media"), async (req, res) => {
     }
 
     const report = await Report.create({
+      deviceId,
       type,
       description,
       barangay,
