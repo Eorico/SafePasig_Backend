@@ -156,20 +156,24 @@ reportRouter.get("/stream", (req, res) => {
   req.on("close", () => clearInterval(interval));
 });
 
-// PUT: Toggle PWD for a report (public)
-reportRouter.put("/:id/pwd", async (req, res) => {
-    const { id } = req.params;
-    const { isPWD } = req.body; // boolean
+// PUT: Toggle PWD for all reports and SOS
+reportRouter.put("/pwd/all", async (req, res) => {
+  try {
+    const { isPWD } = req.body; // true or false
 
-    const report = await Report.findById(id);
-    if (!report) return res.status(404).json({ success: false, message: "Report not found" });
+    // Update all reports (normal + SOS)
+    const result = await Report.updateMany({}, { isPWD });
 
-    report.isPWD = isPWD;
-    await report.save();
-
-    res.json({ success: true, report });
+    res.json({
+      success: true,
+      modifiedCount: result.modifiedCount,
+      message: `PWD set to ${isPWD} for all reports and SOS entries`
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
 });
-
 
 
 export default reportRouter;
