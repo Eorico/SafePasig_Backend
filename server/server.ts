@@ -5,7 +5,6 @@ import dotenv from "dotenv";
 import reportRouter from "./routes/reports.js";
 import sosRouter from "./routes/sos.js";
 import adminRouter from "./routes/admin.js";
-import notifRouter from "./routes/notification.js";
 
 dotenv.config();
 const app = express();
@@ -24,8 +23,7 @@ app.use("/uploads", express.static("uploads", {
 // Routes
 app.use("/reports", reportRouter);
 app.use("/sos", sosRouter);
-app.use("/admin", adminRouter)
-app.use("/notifications", notifRouter);
+app.use("/admin", adminRouter);
 
 // ------------------
 // MongoDB Connection
