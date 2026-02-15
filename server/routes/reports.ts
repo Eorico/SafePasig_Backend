@@ -3,6 +3,7 @@ import multer from "multer";
 import fs from "fs";
 import path from "path";
 import Report from "../models/Report.js";
+import { sendPushNotificationToAll } from "../utils/sendNotif.js";
 
 const reportRouter = express.Router();
 
@@ -91,6 +92,11 @@ reportRouter.post("/", upload.single("media"), async (req, res) => {
       mediaUrl: mediaPath,
       isPWD: isPWD === 'true',
     });
+
+    await sendPushNotificationToAll(
+      "New Report Submitted",
+      `Type: ${report.type} at Barangay: ${report.barangay}`
+    );
 
     res.json({ success: true, report });
   } catch (err) {

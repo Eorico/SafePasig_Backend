@@ -1,5 +1,6 @@
 import express from 'express';
 import Report from '../models/Report.js';
+import { sendPushNotificationToAll } from '../utils/sendNotif.js';
 
 const sosRouter = express.Router();
 
@@ -28,6 +29,12 @@ sosRouter.post('/', async (req, res) => {
             longitude: sosReport.longitude,
             id: sosReport._id,
         });
+
+        await sendPushNotificationToAll(
+            "SOS Alert!",
+            `An SOS was triggered at Lat:${sosReport.latitude}, Lng:${sosReport.longitude}`
+        );
+
 
         res.json({ success: true, message: "SOS sent", sosReport });
 
